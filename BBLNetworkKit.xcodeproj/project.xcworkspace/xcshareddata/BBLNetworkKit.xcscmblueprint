@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "90E163FBF04E85C6390AFC92F8E991EE1E79C0C6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "90E163FBF04E85C6390AFC92F8E991EE1E79C0C6" : 0,
+    "BDA721A062640D35136B2B591291C5736F4D5220" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A7B07C9A-98D7-4535-8194-E516BDC8728C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "90E163FBF04E85C6390AFC92F8E991EE1E79C0C6" : "BlackBarLabs.Swift.BBLNetworkKit\/",
+    "BDA721A062640D35136B2B591291C5736F4D5220" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BBLNetworkKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BBLNetworkKit.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:blackbarlabs\/BlackBarLabs.Swift.BBLNetworkKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "90E163FBF04E85C6390AFC92F8E991EE1E79C0C6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/eastfive.visualstudio.com\/DefaultCollection\/OrderOwl\/_git\/OrderOwl-iOS",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BDA721A062640D35136B2B591291C5736F4D5220"
+    }
+  ]
+}
