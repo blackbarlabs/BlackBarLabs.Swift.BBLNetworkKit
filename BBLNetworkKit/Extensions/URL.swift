@@ -43,10 +43,10 @@ public extension NSURLSession {
 
 public extension NSURLRequest {
     static func GETRequest(url url: NSURL, dictionary: [String: String]) -> NSURLRequest? {
-        let urlString = url.absoluteString
+        guard let urlString = url.absoluteString else { return nil }
         var parameterString = self.parameterString(dictionary: dictionary)
         if parameterString.characters.count > 0 { parameterString = "?" + parameterString }
-        let fullString = urlString + parameterString
+        let fullString = urlString  + parameterString
         guard let fullUrl = NSURL(string: fullString) else { return nil }
         let request = NSMutableURLRequest(URL: fullUrl)
         request.HTTPMethod = "GET"

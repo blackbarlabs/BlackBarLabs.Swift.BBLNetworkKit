@@ -159,7 +159,7 @@ extension NSUUID: JSONConvertibleType {
 }
 
 extension NSURL: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self.absoluteString }
+    public var jsonValue: AnyObject { return self.absoluteString ?? NSNull() }
 }
 
 extension NSDate: JSONConvertibleType {
