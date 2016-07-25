@@ -26,7 +26,7 @@ public struct BBLKeychain {
         return fetch.value
     }
     
-    public func saveToken(value value: String) {
+    public func saveToken(value: String) {
         let status = set(key: tokenKey, value: value)
         if status != errSecSuccess { print("Error \(status) saving token") }
     }
@@ -37,7 +37,7 @@ public struct BBLKeychain {
     }
     
     // MARK: - Private
-    private func get(key key: String) -> (value: String?, status: OSStatus) {
+    private func get(key: String) -> (value: String?, status: OSStatus) {
         let query: [NSString: AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : key,
@@ -48,15 +48,14 @@ public struct BBLKeychain {
         var data: AnyObject?
         let status = SecItemCopyMatching(query, &data)
         if status != 0 { return (nil, status) }
-        if let valueData = data,
-            value = NSString(data: valueData as! NSData, encoding: NSUTF8StringEncoding) as? String {
+        if let valueData = data, let value = NSString(data: valueData as! Data, encoding: String.Encoding.utf8.rawValue) as? String {
             return (value, status)
         }
         return (nil, status)
     }
     
-    private func set(key key: String, value: String) -> OSStatus {
-        guard let valueData = value.dataUsingEncoding(NSUTF8StringEncoding) else { return errSecParam }
+    private func set(key: String, value: String) -> OSStatus {
+        guard let valueData = value.data(using: String.Encoding.utf8) else { return errSecParam }
         
         let query: [NSString: AnyObject] = [
             kSecClass : kSecClassGenericPassword,
@@ -72,7 +71,7 @@ public struct BBLKeychain {
         return status
     }
     
-    private func delete(key key: String) -> OSStatus {
+    private func delete(key: String) -> OSStatus {
         let query: [NSString: AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : key

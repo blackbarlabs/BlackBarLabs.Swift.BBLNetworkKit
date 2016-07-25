@@ -8,94 +8,94 @@
 
 import Foundation
 
-public extension NSURLSession {
-    static func jsonSession(token token: String?) -> NSURLSession {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+public extension URLSession {
+    static func jsonSession(token: String?) -> URLSession {
+        let config = URLSessionConfiguration.default
         var header = [ "Accept" : "application/json", "Content-Type" : "application/json"]
         if token != nil { header["Authorization"] = token! }
-        config.HTTPAdditionalHeaders = header
-        return NSURLSession(configuration: config)
+        config.httpAdditionalHeaders = header
+        return URLSession(configuration: config)
     }
     
-    static func deleteSession(token token: String?) -> NSURLSession {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+    static func deleteSession(token: String?) -> URLSession {
+        let config = URLSessionConfiguration.default
         var header = [ "Content-Type" : "application/x-www-form-urlencoded" ]
         if token != nil { header["Authorization"] = token! }
-        config.HTTPAdditionalHeaders = header
-        return NSURLSession(configuration: config)
+        config.httpAdditionalHeaders = header
+        return URLSession(configuration: config)
     }
     
-    static func imageSession(token token: String?) -> NSURLSession {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+    static func imageSession(token: String?) -> URLSession {
+        let config = URLSessionConfiguration.default
         let header = [ "Accept" : "image" ]
-        config.HTTPAdditionalHeaders = header
-        return NSURLSession(configuration: config)
+        config.httpAdditionalHeaders = header
+        return URLSession(configuration: config)
     }
     
-    static func blobStorageSession(token token: String?, mimeType: String) -> NSURLSession {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+    static func blobStorageSession(token: String?, mimeType: String) -> URLSession {
+        let config = URLSessionConfiguration.default
         var header = [ "Accept" : mimeType ]
         if token != nil { header["Authorization"] = token! }
-        config.HTTPAdditionalHeaders = header
-        return NSURLSession(configuration: config)
+        config.httpAdditionalHeaders = header
+        return URLSession(configuration: config)
     }
 }
 
-public extension NSURLRequest {
-    static func GETRequest(url url: NSURL, dictionary: [String: String]) -> NSURLRequest? {
+public extension URLRequest {
+    static func GETRequest(url: URL, dictionary: [String: String]) -> URLRequest? {
         guard let urlString = url.absoluteString else { return nil }
         var parameterString = self.parameterString(dictionary: dictionary)
         if parameterString.characters.count > 0 { parameterString = "?" + parameterString }
         let fullString = urlString  + parameterString
-        guard let fullUrl = NSURL(string: fullString) else { return nil }
-        let request = NSMutableURLRequest(URL: fullUrl)
-        request.HTTPMethod = "GET"
-        return request
+        guard let fullUrl = URL(string: fullString) else { return nil }
+        let request = NSMutableURLRequest(url: fullUrl)
+        request.httpMethod = "GET"
+        return request as URLRequest
     }
     
-    static func POSTRequest(url url: NSURL, dictionary: [String: AnyObject]) -> NSURLRequest? {
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
+    static func POSTRequest(url: URL, dictionary: [String: AnyObject]) -> URLRequest? {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
         do {
-            request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
-            return request
+            request.httpBody = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+            return request as URLRequest
         }
         catch { return nil }
     }
     
-    static func PUTRequest(url url: NSURL, dictionary: [String: AnyObject]) -> NSURLRequest? {
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "PUT"
+    static func PUTRequest(url: URL, dictionary: [String: AnyObject]) -> URLRequest? {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "PUT"
         do {
-            request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(dictionary, options: [])
-            return request
+            request.httpBody = try JSONSerialization.data(withJSONObject: dictionary, options: [])
+            return request as URLRequest
         }
         catch { return nil }
     }
     
-    static func DELETERequest(url url: NSURL, dictionary: [String: String]) -> NSURLRequest? {
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "DELETE"
+    static func DELETERequest(url: URL, dictionary: [String: String]) -> URLRequest? {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "DELETE"
         let parameterString = self.parameterString(dictionary: dictionary)
-        request.HTTPBody = parameterString.dataUsingEncoding(NSUTF8StringEncoding)
-        return request
+        request.httpBody = parameterString.data(using: String.Encoding.utf8)
+        return request as URLRequest
     }
     
-    static func parameterString(dictionary dictionary: [String: String]) -> String {
+    static func parameterString(dictionary: [String: String]) -> String {
         return dictionary.map { (param: (key: String, value: String)) -> String in
-            return "\(param.key)=\(param.value.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())!)"
-            }.joinWithSeparator("&")
+            return "\(param.key)=\(param.value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
+            }.joined(separator: "&")
     }
 }
 
-public extension NSURLResponse {
+public extension URLResponse {
     var statusCode: Int {
-        guard let response = self as? NSHTTPURLResponse else { return 0 }
+        guard let response = self as? HTTPURLResponse else { return 0 }
         return response.statusCode
     }
     
     var statusString: String {
-        return NSHTTPURLResponse.localizedStringForStatusCode(self.statusCode)
+        return HTTPURLResponse.localizedString(forStatusCode: self.statusCode)
     }
     
     var didSucceed: Bool {
@@ -103,8 +103,8 @@ public extension NSURLResponse {
     }
     
     var contentType: String {
-        guard let response = self as? NSHTTPURLResponse,
-            contentType = response.allHeaderFields["Content-Type"] as? String  else { return "No Content-Type" }
+        guard let response = self as? HTTPURLResponse,
+            let contentType = response.allHeaderFields["Content-Type"] as? String  else { return "No Content-Type" }
         return contentType
     }
 }

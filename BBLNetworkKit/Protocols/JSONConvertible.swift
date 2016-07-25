@@ -13,7 +13,7 @@ public typealias JSONArray = [JSONDictionary]
 
 // MARK: - Protocols
 public protocol JSONConvertible {
-    var identifier: NSUUID! { get }
+    var identifier: UUID! { get }
     init?(_ jsonDict: JSONDictionary)
 }
 
@@ -25,106 +25,106 @@ public protocol JSONConvertibleType {
 public extension Dictionary {
     
     // Dictionary
-    func valueForJSONKey(key: Key) -> JSONDictionary? {
+    func valueForJSONKey(_ key: Key) -> JSONDictionary? {
         return self[key] as? JSONDictionary
     }
     
-    func valueForJSONKey(key: Key) -> JSONDictionary {
+    func valueForJSONKey(_ key: Key) -> JSONDictionary {
         return self[key] as? JSONDictionary ?? JSONDictionary()
     }
     
     // Array
-    func valueForJSONKey(key: Key) -> JSONArray? {
+    func valueForJSONKey(_ key: Key) -> JSONArray? {
         return self[key] as? JSONArray
     }
     
-    func valueForJSONKey(key: Key) -> JSONArray {
+    func valueForJSONKey(_ key: Key) -> JSONArray {
         return self[key] as? JSONArray ?? JSONArray()
     }
     
     // String
-    func valueForJSONKey(key: Key) -> String? {
+    func valueForJSONKey(_ key: Key) -> String? {
         return self[key] as? String
     }
     
-    func valueForJSONKey(key: Key) -> String {
+    func valueForJSONKey(_ key: Key) -> String {
         return self[key] as? String ?? ""
     }
     
     // NSNumber
-    func valueForJSONKey(key: Key) -> NSNumber? {
+    func valueForJSONKey(_ key: Key) -> NSNumber? {
         return self[key] as? NSNumber
     }
     
-    func valueForJSONKey(key: Key) -> NSNumber {
+    func valueForJSONKey(_ key: Key) -> NSNumber {
         return self[key] as? NSNumber ?? 0
     }
     
     // Bool
-    func valueForJSONKey(key: Key) -> Bool? {
+    func valueForJSONKey(_ key: Key) -> Bool? {
         return self[key] as? Bool
     }
     
-    func valueForJSONKey(key: Key) -> Bool {
+    func valueForJSONKey(_ key: Key) -> Bool {
         return self[key] as? Bool ?? false
     }
     
     // Int
-    func valueForJSONKey(key: Key) -> Int? {
+    func valueForJSONKey(_ key: Key) -> Int? {
         return self[key] as? Int
     }
     
-    func valueForJSONKey(key: Key) -> Int {
+    func valueForJSONKey(_ key: Key) -> Int {
         return self[key] as? Int ?? 0
     }
     
     // Float
-    func valueForJSONKey(key: Key) -> Float? {
+    func valueForJSONKey(_ key: Key) -> Float? {
         return self[key] as? Float
     }
     
-    func valueForJSONKey(key: Key) -> Float {
+    func valueForJSONKey(_ key: Key) -> Float {
         return self[key] as? Float ?? 0.0
     }
     
     // Double
-    func valueForJSONKey(key: Key) -> Double? {
+    func valueForJSONKey(_ key: Key) -> Double? {
         return self[key] as? Double
     }
     
-    func valueForJSONKey(key: Key) -> Double {
+    func valueForJSONKey(_ key: Key) -> Double {
         return self[key] as? Double ?? 0.0
     }
     
     // UUID (optional only)
-    func valueForJSONKey(key: Key) -> NSUUID? {
-        if let uuidString = self[key] as? String, uuid = NSUUID(UUIDString: uuidString) { return uuid }
+    func valueForJSONKey(_ key: Key) -> UUID? {
+        if let uuidString = self[key] as? String, let uuid = UUID(uuidString: uuidString) { return uuid }
         else { return nil }
     }
     
     // URL (optional only)
-    func valueForJSONKey(key: Key) -> NSURL? {
-        if let urlString = self[key] as? String, url = NSURL.init(string: urlString) { return url }
+    func valueForJSONKey(_ key: Key) -> URL? {
+        if let urlString = self[key] as? String, let url = URL.init(string: urlString) { return url }
         else { return nil }
     }
     
     // NSDate (optional only)
-    func valueForJSONKey(key: Key) -> NSDate? {
-        if let value = self[key] as? NSDate { return value }
+    func valueForJSONKey(_ key: Key) -> Date? {
+        if let value = self[key] as? Date { return value }
         if let dateString = self[key] as? String {
-            let formatter = NSDateFormatter()
-            formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+            let formatter = DateFormatter()
+            formatter.locale = Locale(localeIdentifier: "en_US_POSIX")
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            if let date = formatter.dateFromString(dateString) { return date }
+            if let date = formatter.date(from: dateString) { return date }
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            return formatter.dateFromString(dateString)
+            return formatter.date(from: dateString)
         } else { return nil }
     }
     
     // NSData (optional only)
-    func valueForJSONKey(key: Key) -> NSData? {
-        if let value = self[key] as? NSData { return value }
-        if let dataString = self[key] as? NSString, data = dataString.dataUsingEncoding(NSUTF8StringEncoding) { return data }
+    func valueForJSONKey(_ key: Key) -> Data? {
+        if let value = self[key] as? Data { return value }
+        if let dataString = self[key] as? NSString, let data = dataString.data(using: String.Encoding.utf8.rawValue) { return data }
         else { return nil }
     }
 }
@@ -154,30 +154,30 @@ extension Double: JSONConvertibleType {
     public var jsonValue: AnyObject { return self }
 }
 
-extension NSUUID: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self.UUIDString }
+extension UUID: JSONConvertibleType {
+    public var jsonValue: AnyObject { return self.uuidString }
 }
 
-extension NSURL: JSONConvertibleType {
+extension URL: JSONConvertibleType {
     public var jsonValue: AnyObject { return self.absoluteString ?? NSNull() }
 }
 
-extension NSDate: JSONConvertibleType {
+extension Date: JSONConvertibleType {
     public var jsonValue: AnyObject {
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        let formatter = DateFormatter()
+        formatter.locale = Locale(localeIdentifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.ss'Z'"
-        formatter.timeZone = NSTimeZone(name: "UTC")
-        return formatter.stringFromDate(self)
+        formatter.timeZone = TimeZone(name: "UTC")
+        return formatter.string(from: self)
     }
 }
 
 extension Optional where Wrapped: JSONConvertibleType {
     public var jsonValue: AnyObject {
         switch self {
-        case .Some(_):
+        case .some(_):
             return self!.jsonValue
-        case .None:
+        case .none:
             return NSNull()
         }
     }

@@ -31,7 +31,7 @@ public struct BBLError {
                   failureReason: errorObject.localizedFailureReason)
     }
     
-    public init(urlResponse: NSURLResponse) {
+    public init(urlResponse: URLResponse) {
         self.init(domain: "HTTPErrorDomain",
                   code: urlResponse.statusCode,
                   description: "HTTP Error \(urlResponse.statusCode)",
@@ -44,7 +44,7 @@ public enum BBLResult<T> {
     case success(T)
     case failure(BBLError)
     
-    public func map<U>(f: (T) -> U) -> BBLResult<U> {
+    public func map<U>(_ f: (T) -> U) -> BBLResult<U> {
         switch self {
         case success(let value):
             return .success(f(value))
@@ -53,7 +53,7 @@ public enum BBLResult<T> {
         }
     }
     
-    public func map<U>(f: (T) -> U?) -> BBLResult<U> {
+    public func map<U>(_ f: (T) -> U?) -> BBLResult<U> {
         switch self {
         case .success(let value):
             if let outValue = f(value) {
