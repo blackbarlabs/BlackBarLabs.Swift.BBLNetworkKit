@@ -46,9 +46,9 @@ public enum BBLResult<T> {
     
     public func map<U>(_ f: (T) -> U) -> BBLResult<U> {
         switch self {
-        case success(let value):
+        case .success(let value):
             return .success(f(value))
-        case failure(let error):
+        case .failure(let error):
             return .failure(error)
         }
     }

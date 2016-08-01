@@ -43,7 +43,7 @@ public extension URLSession {
 
 public extension URLRequest {
     static func GETRequest(url: URL, dictionary: [String: String]) -> URLRequest? {
-        guard let urlString = url.absoluteString else { return nil }
+        let urlString = url.absoluteString
         var parameterString = self.parameterString(dictionary: dictionary)
         if parameterString.characters.count > 0 { parameterString = "?" + parameterString }
         let fullString = urlString  + parameterString

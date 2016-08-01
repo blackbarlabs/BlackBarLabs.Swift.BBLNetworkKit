@@ -113,7 +113,7 @@ public extension Dictionary {
         if let value = self[key] as? Date { return value }
         if let dateString = self[key] as? String {
             let formatter = DateFormatter()
-            formatter.locale = Locale(localeIdentifier: "en_US_POSIX")
+            formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             if let date = formatter.date(from: dateString) { return date }
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -165,9 +165,9 @@ extension URL: JSONConvertibleType {
 extension Date: JSONConvertibleType {
     public var jsonValue: AnyObject {
         let formatter = DateFormatter()
-        formatter.locale = Locale(localeIdentifier: "en_US_POSIX")
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.ss'Z'"
-        formatter.timeZone = TimeZone(name: "UTC")
+        formatter.timeZone = TimeZone(identifier: "UTC")
         return formatter.string(from: self)
     }
 }
