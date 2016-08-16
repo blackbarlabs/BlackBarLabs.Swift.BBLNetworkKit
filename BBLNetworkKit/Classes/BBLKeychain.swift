@@ -38,7 +38,7 @@ public struct BBLKeychain {
     
     // MARK: - Private
     private func get(key: String) -> (value: String?, status: OSStatus) {
-        let query: [NSString: AnyObject] = [
+        let query: [NSString: Any] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : key,
             kSecReturnData : kCFBooleanTrue,
@@ -46,7 +46,7 @@ public struct BBLKeychain {
         ]
         
         var data: AnyObject?
-        let status = SecItemCopyMatching(query, &data)
+        let status = SecItemCopyMatching(query as CFDictionary, &data)
         if status != 0 { return (nil, status) }
         if let valueData = data, let value = NSString(data: valueData as! Data, encoding: String.Encoding.utf8.rawValue) as? String {
             return (value, status)
@@ -57,26 +57,26 @@ public struct BBLKeychain {
     private func set(key: String, value: String) -> OSStatus {
         guard let valueData = value.data(using: String.Encoding.utf8) else { return errSecParam }
         
-        let query: [NSString: AnyObject] = [
+        let query: [NSString: Any] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : key,
             kSecValueData : valueData
         ]
         
-        var status = SecItemAdd(query, nil)
+        var status = SecItemAdd(query as CFDictionary, nil)
         if status == errSecDuplicateItem {
-            let update: [NSString: AnyObject] = [ kSecValueData : valueData ]
-            status = SecItemUpdate(query, update)
+            let update: [NSString: Any] = [ kSecValueData : valueData as AnyObject ]
+            status = SecItemUpdate(query as CFDictionary, update as CFDictionary)
         }
         return status
     }
     
     private func delete(key: String) -> OSStatus {
-        let query: [NSString: AnyObject] = [
+        let query: [NSString: Any] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrService : key
         ]
-        return SecItemDelete(query)
+        return SecItemDelete(query as CFDictionary)
     }
 }
 

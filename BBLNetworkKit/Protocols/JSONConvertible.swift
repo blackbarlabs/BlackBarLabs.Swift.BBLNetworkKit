@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: Any]
 public typealias JSONArray = [JSONDictionary]
 
 // MARK: - Protocols
@@ -18,7 +18,7 @@ public protocol JSONConvertible {
 }
 
 public protocol JSONConvertibleType {
-    var jsonValue: AnyObject { get }
+    var jsonValue: Any { get }
 }
 
 // MARK: - Getters
@@ -131,39 +131,39 @@ public extension Dictionary {
 
 // MARK: - Setters
 extension String: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension NSNumber: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension Bool: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension Int: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension Float: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension Double: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self }
+    public var jsonValue: Any { return self }
 }
 
 extension UUID: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self.uuidString }
+    public var jsonValue: Any { return self.uuidString }
 }
 
 extension URL: JSONConvertibleType {
-    public var jsonValue: AnyObject { return self.absoluteString ?? NSNull() }
+    public var jsonValue: Any { return self.absoluteString }
 }
 
 extension Date: JSONConvertibleType {
-    public var jsonValue: AnyObject {
+    public var jsonValue: Any {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.ss'Z'"
@@ -173,7 +173,7 @@ extension Date: JSONConvertibleType {
 }
 
 extension Optional where Wrapped: JSONConvertibleType {
-    public var jsonValue: AnyObject {
+    public var jsonValue: Any {
         switch self {
         case .some(_):
             return self!.jsonValue
