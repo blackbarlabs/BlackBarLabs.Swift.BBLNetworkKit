@@ -53,7 +53,7 @@ public extension URLRequest {
         return request as URLRequest
     }
     
-    static func POSTRequest(url: URL, dictionary: [String: AnyObject]) -> URLRequest? {
+    static func POSTRequest(url: URL, dictionary: [String: Any]) -> URLRequest? {
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         do {
@@ -63,7 +63,7 @@ public extension URLRequest {
         catch { return nil }
     }
     
-    static func PUTRequest(url: URL, dictionary: [String: AnyObject]) -> URLRequest? {
+    static func PUTRequest(url: URL, dictionary: [String: Any]) -> URLRequest? {
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "PUT"
         do {
