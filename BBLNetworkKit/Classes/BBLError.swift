@@ -75,6 +75,7 @@ public let BBLGETRequestError = BBLError(domain: "BBLErrorDomain", code: 610, de
 public let BBLPUTRequestError = BBLError(domain: "BBLErrorDomain", code: 611, description: "Bad PUT Request", recoverySuggestion: nil, failureReason: nil)
 public let BBLPOSTRequestError = BBLError(domain: "BBLErrorDomain", code: 612, description: "Bad POST Request", recoverySuggestion: nil, failureReason: nil)
 public let BBLDELETERequestError = BBLError(domain: "BBLErrorDomain", code: 613, description: "Bad DELETE Request", recoverySuggestion: nil, failureReason: nil)
+public let BBLOPTIONSRequestError = BBLError(domain: "BBLErrorDomain", code: 614, description: "Bad OPTIONS Request", recoverySuggestion: nil, failureReason: nil)
 
 public let BBLNoDataError = BBLError(domain: "BBLErrorDomain", code: 630, description: "No Data Returned", recoverySuggestion: nil, failureReason: nil)
 public let BBLMappingError = BBLError(domain: "BBLErrorDomain", code: 631, description: "Object Mapping Error", recoverySuggestion: nil, failureReason: nil)

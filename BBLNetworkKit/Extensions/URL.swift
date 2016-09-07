@@ -43,11 +43,9 @@ public extension URLSession {
 
 public extension URLRequest {
     static func GETRequest(url: URL, dictionary: [String: String]) -> URLRequest? {
-        let urlString = url.absoluteString
-        var parameterString = self.parameterString(dictionary: dictionary)
-        if parameterString.characters.count > 0 { parameterString = "?" + parameterString }
-        let fullString = urlString  + parameterString
-        guard let fullUrl = URL(string: fullString) else { return nil }
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        components.queryItems = dictionary.map { (key, value) in URLQueryItem(name: key, value: value) }
+        guard let fullUrl = components.url else { return nil }
         let request = NSMutableURLRequest(url: fullUrl)
         request.httpMethod = "GET"
         return request as URLRequest
@@ -81,6 +79,12 @@ public extension URLRequest {
         return request as URLRequest
     }
     
+    static func OPTIONSRequest(url: URL) -> URLRequest? {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "OPTIONS"
+        return request as URLRequest
+    }
+    
     static func parameterString(dictionary: [String: String]) -> String {
         return dictionary.map { (param: (key: String, value: String)) -> String in
             return "\(param.key)=\(param.value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
@@ -89,6 +93,11 @@ public extension URLRequest {
 }
 
 public extension URLResponse {
+    var allHeaderFields: [AnyHashable: Any] {
+        guard let response = self as? HTTPURLResponse else { return [:] }
+        return response.allHeaderFields
+    }
+    
     var statusCode: Int {
         guard let response = self as? HTTPURLResponse else { return 0 }
         return response.statusCode
