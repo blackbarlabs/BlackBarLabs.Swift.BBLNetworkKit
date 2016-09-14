@@ -98,34 +98,34 @@ public extension Dictionary {
     
     // UUID (optional only)
     func valueForJSONKey(_ key: Key) -> UUID? {
-        if let uuidString = self[key] as? String, let uuid = UUID(uuidString: uuidString) { return uuid }
-        else { return nil }
+        guard let uuidString = self[key] as? String, let uuid = UUID(uuidString: uuidString) else { return nil }
+        return uuid
     }
     
     // URL (optional only)
     func valueForJSONKey(_ key: Key) -> URL? {
-        if let urlString = self[key] as? String, let url = URL.init(string: urlString) { return url }
-        else { return nil }
+        guard let urlString = self[key] as? String, let url = URL(string: urlString) else { return nil }
+        return url
     }
     
     // NSDate (optional only)
     func valueForJSONKey(_ key: Key) -> Date? {
         if let value = self[key] as? Date { return value }
-        if let dateString = self[key] as? String {
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            if let date = formatter.date(from: dateString) { return date }
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            return formatter.date(from: dateString)
-        } else { return nil }
+        guard let dateString = self[key] as? String else { return nil }
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if let date = formatter.date(from: dateString) { return date }
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return formatter.date(from: dateString)
     }
     
     // NSData (optional only)
     func valueForJSONKey(_ key: Key) -> Data? {
         if let value = self[key] as? Data { return value }
-        if let dataString = self[key] as? NSString, let data = dataString.data(using: String.Encoding.utf8.rawValue) { return data }
-        else { return nil }
+        guard let dataString = self[key] as? String, let data = dataString.data(using: .utf8) else { return nil }
+        return data
     }
 }
 
