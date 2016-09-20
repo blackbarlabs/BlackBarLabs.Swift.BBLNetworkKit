@@ -42,6 +42,22 @@ public extension Dictionary {
         return self[key] as? JSONArray ?? JSONArray()
     }
     
+    func valueForJSONKey(_ key: Key) -> [String]? {
+        return self[key] as? [String]
+    }
+
+    func valueForJSONKey(_ key: Key) -> [String] {
+        return self[key] as? [String] ?? [String]()
+    }
+    
+    func valueForJSONKey(_ key: Key) -> [Any]? {
+        return self[key] as? [Any]
+    }
+    
+    func valueForJSONKey(_ key: Key) -> [Any] {
+        return self[key] as? [Any] ?? [Any]()
+    }
+    
     // String
     func valueForJSONKey(_ key: Key) -> String? {
         return self[key] as? String
