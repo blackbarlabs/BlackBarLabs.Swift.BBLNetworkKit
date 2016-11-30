@@ -65,6 +65,16 @@ public enum BBLResult<T> {
             return .failure(error)
         }
     }
+    
+    public func handle(success: (T) -> Void, failure: (BBLError) -> Void) {
+        switch self {
+        case .success(let t):
+            success(t)
+            
+        case .failure(let error):
+            failure(error)
+        }
+    }
 }
 
 // MARK: - Error Definitions
