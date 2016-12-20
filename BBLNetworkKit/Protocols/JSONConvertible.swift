@@ -114,7 +114,9 @@ public extension Dictionary {
     
     // UUID (optional only)
     func valueForJSONKey(_ key: Key) -> UUID? {
-        guard let uuidString = self[key] as? String, let uuid = UUID(uuidString: uuidString) else { return nil }
+        guard let uuidString = self[key] as? String,
+            uuidString != "00000000-0000-0000-0000-000000000000",
+            let uuid = UUID(uuidString: uuidString) else { return nil }
         return uuid
     }
     
