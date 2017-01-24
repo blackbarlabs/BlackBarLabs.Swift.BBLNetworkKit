@@ -48,14 +48,14 @@ public struct BBLKeychain {
         var data: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &data)
         if status != 0 { return (nil, status) }
-        if let valueData = data, let value = NSString(data: valueData as! Data, encoding: String.Encoding.utf8.rawValue) as? String {
+        if let valueData = data, let value = String(data: valueData as! Data, encoding: .utf8) {
             return (value, status)
         }
         return (nil, status)
     }
     
     private func set(key: String, value: String) -> OSStatus {
-        guard let valueData = value.data(using: String.Encoding.utf8) else { return errSecParam }
+        guard let valueData = value.data(using: .utf8) else { return errSecParam }
         
         let query: [NSString: Any] = [
             kSecClass : kSecClassGenericPassword,
