@@ -13,7 +13,7 @@ public typealias JSONArray = [JSONDictionary]
 
 // MARK: - Protocols
 public protocol JSONConvertible {
-    var identifier: UUID! { get }
+    var identifier: UUID { get }
     init?(_ jsonDict: JSONDictionary)
 }
 
