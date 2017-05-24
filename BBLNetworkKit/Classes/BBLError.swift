@@ -34,7 +34,7 @@ public struct BBLError {
     public init(urlResponse: URLResponse) {
         self.init(domain: "HTTPErrorDomain",
                   code: urlResponse.statusCode,
-                  description: "HTTP Error \(urlResponse.statusCode)",
+                  description: HTTPURLResponse.localizedString(forStatusCode: urlResponse.statusCode),
                   recoverySuggestion: nil,
                   failureReason:nil)
     }
