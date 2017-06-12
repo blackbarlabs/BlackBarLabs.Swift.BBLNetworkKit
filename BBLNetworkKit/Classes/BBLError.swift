@@ -36,7 +36,7 @@ public struct BBLError {
                   code: urlResponse.statusCode,
                   description: HTTPURLResponse.localizedString(forStatusCode: urlResponse.statusCode),
                   recoverySuggestion: nil,
-                  failureReason:nil)
+                  failureReason: urlResponse.allHeaderFields["Reason"] as? String)
     }
 }
 
@@ -89,5 +89,7 @@ public let BBLOPTIONSRequestError = BBLError(domain: "BBLErrorDomain", code: 614
 
 public let BBLNoDataError = BBLError(domain: "BBLErrorDomain", code: 630, description: "No Data Returned", recoverySuggestion: nil, failureReason: nil)
 public let BBLMappingError = BBLError(domain: "BBLErrorDomain", code: 631, description: "Object Mapping Error", recoverySuggestion: nil, failureReason: nil)
+
+public let BBLNoResponseError = BBLError(domain: "BBLErrorDomain", code: 640, description: "No Response from server", recoverySuggestion: nil, failureReason: nil)
 
 public let BBLJSONError = BBLError(domain: "BBLErrorDomain", code: 650, description: "Unexpected JSON Object", recoverySuggestion: nil, failureReason: nil)
