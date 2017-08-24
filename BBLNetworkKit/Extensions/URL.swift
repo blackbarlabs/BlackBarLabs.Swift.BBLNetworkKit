@@ -93,12 +93,12 @@ public extension URLRequest {
 }
 
 public extension URLResponse {
-    var allHeaderFields: [AnyHashable: Any] {
+    @objc var allHeaderFields: [AnyHashable: Any] {
         guard let response = self as? HTTPURLResponse else { return [:] }
         return response.allHeaderFields
     }
     
-    var statusCode: Int {
+    @objc var statusCode: Int {
         guard let response = self as? HTTPURLResponse else { return 0 }
         return response.statusCode
     }
@@ -111,7 +111,7 @@ public extension URLResponse {
         return 200...299 ~= self.statusCode
     }
     
-    var contentType: String {
+    @objc var contentType: String {
         guard let response = self as? HTTPURLResponse,
             let contentType = response.allHeaderFields["Content-Type"] as? String  else { return "No Content-Type" }
         return contentType
