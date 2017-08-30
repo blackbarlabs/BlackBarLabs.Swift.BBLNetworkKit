@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BBLError {
+public struct BBLError: Equatable {
     public var domain: String
     public var code: Int
     public var description: String
@@ -37,6 +37,10 @@ public struct BBLError {
                   description: HTTPURLResponse.localizedString(forStatusCode: urlResponse.statusCode),
                   recoverySuggestion: nil,
                   failureReason: urlResponse.allHeaderFields["Reason"] as? String)
+    }
+    
+    public static func ==(lhs: BBLError, rhs: BBLError) -> Bool {
+        return lhs.domain == rhs.domain && lhs.code == rhs.code
     }
 }
 
