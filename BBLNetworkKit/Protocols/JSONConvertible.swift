@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias JSONDictionary = [String: Any]
+public typealias JSONDictionary = [String : Any]
 public typealias JSONArray = [JSONDictionary]
 
 // MARK: - Protocols
