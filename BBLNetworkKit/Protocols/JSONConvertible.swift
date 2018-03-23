@@ -130,12 +130,19 @@ public extension Dictionary {
     func valueForJSONKey(_ key: Key) -> Date? {
         if let value = self[key] as? Date { return value }
         guard let dateString = self[key] as? String else { return nil }
-        
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
+        
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         if let date = formatter.date(from: dateString) { return date }
+        
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        if let date = formatter.date(from: dateString) { return date }
+        
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        if let date = formatter.date(from: dateString) { return date }
+        
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         return formatter.date(from: dateString)
     }
     
