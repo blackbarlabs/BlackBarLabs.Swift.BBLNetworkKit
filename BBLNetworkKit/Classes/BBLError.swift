@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BBLError: Equatable {
+open class BBLError: Equatable {
     public var domain: String
     public var code: Int
     public var description: String
@@ -23,7 +23,7 @@ public struct BBLError: Equatable {
         self.failureReason = failureReason
     }
     
-    public init(errorObject: NSError) {
+    public convenience init(errorObject: NSError) {
         self.init(domain: errorObject.domain,
                   code: errorObject.code,
                   description: errorObject.localizedDescription,
@@ -31,7 +31,7 @@ public struct BBLError: Equatable {
                   failureReason: errorObject.localizedFailureReason)
     }
     
-    public init(urlResponse: URLResponse) {
+    public convenience init(urlResponse: URLResponse) {
         self.init(domain: "HTTPErrorDomain",
                   code: urlResponse.statusCode,
                   description: HTTPURLResponse.localizedString(forStatusCode: urlResponse.statusCode),
