@@ -50,6 +50,10 @@ public extension Dictionary {
         return self[key] as? [String] ?? [String]()
     }
     
+    func valueForJSONKey(_ key: Key) -> [String?] {
+        return self[key] as? [String?] ?? []
+    }
+    
     func valueForJSONKey(_ key: Key) -> [Any]? {
         return self[key] as? [Any]
     }
@@ -130,6 +134,18 @@ public extension Dictionary {
     func valueForJSONKey(_ key: Key) -> Date? {
         if let value = self[key] as? Date { return value }
         guard let dateString = self[key] as? String else { return nil }
+        return getDate(fromString: dateString)
+    }
+    
+    func valueForJSONKey(_ key: Key) -> [Date?] {
+        guard let array = self[key] as? [String?] else { return [] }
+        return array.map({
+            guard let dateString = $0 else { return nil }
+            return getDate(fromString: dateString)
+        })
+    }
+    
+    private func getDate(fromString dateString: String) -> Date? {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         
@@ -200,8 +216,8 @@ extension Date: JSONConvertibleType {
 extension Optional where Wrapped: JSONConvertibleType {
     public var jsonValue: Any {
         switch self {
-        case .some(_):
-            return self!.jsonValue
+        case .some(let s):
+            return s.jsonValue
         case .none:
             return NSNull()
         }
