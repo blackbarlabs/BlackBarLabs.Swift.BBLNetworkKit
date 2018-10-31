@@ -18,7 +18,7 @@ public protocol JSONConvertible {
 }
 
 public protocol JSONConvertibleType {
-    var jsonValue: Any { get }
+    var bblJsonValue: Any { get }
 }
 
 // MARK: - Getters
@@ -172,39 +172,39 @@ public extension Dictionary {
 
 // MARK: - Setters
 extension String: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension NSNumber: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension Bool: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension Int: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension Float: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension Double: JSONConvertibleType {
-    public var jsonValue: Any { return self }
+    public var bblJsonValue: Any { return self }
 }
 
 extension UUID: JSONConvertibleType {
-    public var jsonValue: Any { return self.uuidString }
+    public var bblJsonValue: Any { return self.uuidString }
 }
 
 extension URL: JSONConvertibleType {
-    public var jsonValue: Any { return self.absoluteString }
+    public var bblJsonValue: Any { return self.absoluteString }
 }
 
 extension Date: JSONConvertibleType {
-    public var jsonValue: Any {
+    public var bblJsonValue: Any {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.ss'Z'"
@@ -214,10 +214,10 @@ extension Date: JSONConvertibleType {
 }
 
 extension Optional where Wrapped: JSONConvertibleType {
-    public var jsonValue: Any {
+    public var bblJsonValue: Any {
         switch self {
         case .some(let s):
-            return s.jsonValue
+            return s.bblJsonValue
         case .none:
             return NSNull()
         }
