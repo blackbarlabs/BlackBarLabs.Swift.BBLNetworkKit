@@ -14,6 +14,7 @@ open class BBLError: Equatable {
     public var description: String
     public var recoverySuggestion: String?
     public var failureReason: String?
+    public var url: URL?
     
     public init(domain: String, code: Int, description: String, recoverySuggestion: String?, failureReason: String?) {
         self.domain = domain
