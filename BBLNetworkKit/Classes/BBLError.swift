@@ -16,7 +16,8 @@ open class BBLError: Equatable {
     public var failureReason: String?
     public var url: URL?
     
-    public init(domain: String, code: Int, description: String, recoverySuggestion: String?, failureReason: String?) {
+    public init(domain: String, code: Int, description: String,
+                recoverySuggestion: String? = nil, failureReason: String? = nil, url: URL? = nil) {
         self.domain = domain
         self.code = code
         self.description = description
@@ -37,7 +38,8 @@ open class BBLError: Equatable {
                   code: urlResponse.statusCode,
                   description: HTTPURLResponse.localizedString(forStatusCode: urlResponse.statusCode),
                   recoverySuggestion: nil,
-                  failureReason: urlResponse.allHeaderFields["Reason"] as? String)
+                  failureReason: urlResponse.allHeaderFields["Reason"] as? String,
+                  url: urlResponse.url)
     }
     
     public static func ==(lhs: BBLError, rhs: BBLError) -> Bool {
@@ -83,20 +85,20 @@ public enum BBLResult<T> {
 }
 
 // MARK: - Error Definitions
-public let BBLURLError = BBLError(domain: "BBLErrorDomain", code: 600, description: "Invalid URL", recoverySuggestion: nil, failureReason: nil)
-public let BBLInvalidObjectError = BBLError(domain: "BBLErrorDomain", code: 601, description: "Invalid object", recoverySuggestion: nil, failureReason: nil)
-public let BBLConnectionError = BBLError(domain: "BBLErrorDomain", code: 602, description: "No internet connection", recoverySuggestion: nil, failureReason: nil)
+public let BBLURLError = BBLError(domain: "BBLErrorDomain", code: 600, description: "Invalid URL")
+public let BBLInvalidObjectError = BBLError(domain: "BBLErrorDomain", code: 601, description: "Invalid object")
+public let BBLConnectionError = BBLError(domain: "BBLErrorDomain", code: 602, description: "No internet connection")
 
-public let BBLGETRequestError = BBLError(domain: "BBLErrorDomain", code: 610, description: "Bad GET request", recoverySuggestion: nil, failureReason: nil)
-public let BBLPUTRequestError = BBLError(domain: "BBLErrorDomain", code: 611, description: "Bad PUT request", recoverySuggestion: nil, failureReason: nil)
-public let BBLPATCHRequestError = BBLError(domain: "BBLErrorDomain", code: 612, description: "Bad PATCH request", recoverySuggestion: nil, failureReason: nil)
-public let BBLPOSTRequestError = BBLError(domain: "BBLErrorDomain", code: 613, description: "Bad POST request", recoverySuggestion: nil, failureReason: nil)
-public let BBLDELETERequestError = BBLError(domain: "BBLErrorDomain", code: 614, description: "Bad DELETE request", recoverySuggestion: nil, failureReason: nil)
-public let BBLOPTIONSRequestError = BBLError(domain: "BBLErrorDomain", code: 615, description: "Bad OPTIONS request", recoverySuggestion: nil, failureReason: nil)
+public let BBLGETRequestError = BBLError(domain: "BBLErrorDomain", code: 610, description: "Bad GET request")
+public let BBLPUTRequestError = BBLError(domain: "BBLErrorDomain", code: 611, description: "Bad PUT request")
+public let BBLPATCHRequestError = BBLError(domain: "BBLErrorDomain", code: 612, description: "Bad PATCH request")
+public let BBLPOSTRequestError = BBLError(domain: "BBLErrorDomain", code: 613, description: "Bad POST request")
+public let BBLDELETERequestError = BBLError(domain: "BBLErrorDomain", code: 614, description: "Bad DELETE request")
+public let BBLOPTIONSRequestError = BBLError(domain: "BBLErrorDomain", code: 615, description: "Bad OPTIONS request")
 
-public let BBLNoDataError = BBLError(domain: "BBLErrorDomain", code: 630, description: "No data returned", recoverySuggestion: nil, failureReason: nil)
-public let BBLMappingError = BBLError(domain: "BBLErrorDomain", code: 631, description: "Object mapping error", recoverySuggestion: nil, failureReason: nil)
+public let BBLNoDataError = BBLError(domain: "BBLErrorDomain", code: 630, description: "No data returned")
+public let BBLMappingError = BBLError(domain: "BBLErrorDomain", code: 631, description: "Object mapping error")
 
-public let BBLNoResponseError = BBLError(domain: "BBLErrorDomain", code: 640, description: "No response from server", recoverySuggestion: nil, failureReason: nil)
+public let BBLNoResponseError = BBLError(domain: "BBLErrorDomain", code: 640, description: "No response from server")
 
-public let BBLJSONError = BBLError(domain: "BBLErrorDomain", code: 650, description: "Unexpected JSON object", recoverySuggestion: nil, failureReason: nil)
+public let BBLJSONError = BBLError(domain: "BBLErrorDomain", code: 650, description: "Unexpected JSON object")

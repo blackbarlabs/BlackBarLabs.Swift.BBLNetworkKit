@@ -30,5 +30,10 @@ public extension URLResponse {
             let contentType = response.allHeaderFields["Content-Type"] as? String  else { return "No Content-Type" }
         return contentType
     }
+    
+    var encoding: String.Encoding? {
+        guard let encodingName = textEncodingName else { return nil }
+        return String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding(encodingName as CFString)))
+    }
 }
 
