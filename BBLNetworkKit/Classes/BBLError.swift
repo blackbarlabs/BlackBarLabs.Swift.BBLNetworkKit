@@ -8,13 +8,16 @@
 
 import Foundation
 
-open class BBLError: Equatable {
+open class BBLError: Equatable, LocalizedError {
     public var domain: String
     public var code: Int
     public var description: String
     public var recoverySuggestion: String?
     public var failureReason: String?
     public var url: URL?
+    public var localizedDescription: String {
+        return description
+    }
     
     public init(domain: String, code: Int, description: String,
                 recoverySuggestion: String? = nil, failureReason: String? = nil, url: URL? = nil) {
