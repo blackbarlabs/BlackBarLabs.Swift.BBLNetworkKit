@@ -9,6 +9,7 @@
 import Foundation
 
 public enum BBLError: LocalizedError {
+    case decoding(DecodingError)
     case generic(String)
     case invalidObject
     case invalidRequest
@@ -18,7 +19,7 @@ public enum BBLError: LocalizedError {
     
     public var code: Int? {
         switch self {
-        case .generic, .invalidObject, .invalidRequest: return nil
+        case .decoding, .generic, .invalidObject, .invalidRequest: return nil
         case .jsonDeserialize(let error, _), .task(let error): return error.code
         case .urlResponse(let response, _): return response.statusCode
         }
@@ -26,6 +27,7 @@ public enum BBLError: LocalizedError {
     
     public var localizedDescription: String {
         switch self {
+        case .decoding(let error): return error.localizedDescription
         case .generic(let message): return message
         case .invalidObject: return "Invalid object"
         case .invalidRequest: return "Invalid request"
