@@ -14,13 +14,12 @@ public enum BBLError: LocalizedError {
     case invalidObject
     case invalidRequest
     case task(NSError)
-    case jsonDeserialize(NSError, Data?)
     case urlResponse(URLResponse, Data?)
     
     public var code: Int? {
         switch self {
         case .decoding, .generic, .invalidObject, .invalidRequest: return nil
-        case .jsonDeserialize(let error, _), .task(let error): return error.code
+        case .task(let error): return error.code
         case .urlResponse(let response, _): return response.statusCode
         }
     }
@@ -31,45 +30,45 @@ public enum BBLError: LocalizedError {
         case .generic(let message): return message
         case .invalidObject: return "Invalid object"
         case .invalidRequest: return "Invalid request"
-        case .jsonDeserialize(let error, _), .task(let error): return error.localizedDescription
+        case .task(let error): return error.localizedDescription
         case .urlResponse(let response, _): return response.statusString
         }
     }
 }
 
-public enum BBLResult<T> {
-    case success(T)
-    case failure(Error)
+public enum BBLResult<Value> {
+    case value(Value)
+    case error(Error)
     
-    public func map<U>(_ f: (T) -> U) -> BBLResult<U> {
+    public func map<U>(_ f: (Value) -> U) -> BBLResult<U> {
         switch self {
-        case .success(let value):
-            return .success(f(value))
-        case .failure(let error):
-            return .failure(error)
+        case .value(let value):
+            return .value(f(value))
+        case .error(let error):
+            return .error(error)
         }
     }
     
-    public func map<U>(_ f: (T) -> U?) -> BBLResult<U> {
+    public func map<U>(_ f: (Value) -> U?) -> BBLResult<U> {
         switch self {
-        case .success(let value):
+        case .value(let value):
             if let outValue = f(value) {
-                return .success(outValue)
+                return .value(outValue)
             }
-            return .failure(BBLError.invalidObject)
+            return .error(BBLError.invalidObject)
             
-        case .failure(let error):
-            return .failure(error)
+        case .error(let error):
+            return .error(error)
         }
     }
     
-    public func handle(success: (T) -> Void, failure: (Error) -> Void) {
+    public func handle(value: (Value) -> Void, error: (Error) -> Void) {
         switch self {
-        case .success(let t):
-            success(t)
+        case .value(let v):
+            value(v)
             
-        case .failure(let error):
-            failure(error)
+        case .error(let e):
+            error(e)
         }
     }
 }
