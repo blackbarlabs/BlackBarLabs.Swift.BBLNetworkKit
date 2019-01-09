@@ -24,7 +24,7 @@ public enum BBLError: LocalizedError {
         }
     }
     
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         switch self {
         case .decoding(let error): return error.localizedDescription
         case .generic(let message): return message
@@ -40,35 +40,10 @@ public enum BBLResult<Value> {
     case value(Value)
     case error(Error)
     
-    public func map<U>(_ f: (Value) -> U) -> BBLResult<U> {
-        switch self {
-        case .value(let value):
-            return .value(f(value))
-        case .error(let error):
-            return .error(error)
-        }
-    }
-    
-    public func map<U>(_ f: (Value) -> U?) -> BBLResult<U> {
-        switch self {
-        case .value(let value):
-            if let outValue = f(value) {
-                return .value(outValue)
-            }
-            return .error(BBLError.invalidObject)
-            
-        case .error(let error):
-            return .error(error)
-        }
-    }
-    
     public func handle(value: (Value) -> Void, error: (Error) -> Void) {
         switch self {
-        case .value(let v):
-            value(v)
-            
-        case .error(let e):
-            error(e)
+        case .value(let v): value(v)
+        case .error(let e): error(e)
         }
     }
 }
